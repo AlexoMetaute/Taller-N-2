@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Interfaz de Ventas</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>Registro de Ventas</h1>
+		<form>
+			<div class="form-group">
+				<label for="producto">Producto:</label>
+				<input type="text" class="form-control" id="producto">
+			</div>
+			<div class="form-group">
+				<label for="cantidad">Cantidad:</label>
+				<input type="number" class="form-control" id="cantidad">
+			</div>
+			<button type="button" class="btn btn-primary" onclick="registrarVenta()">Registrar Venta</button>
+		</form>
+		<hr>
+		<h2>Ventas Registradas</h2>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Producto</th>
+					<th>Cantidad</th>
+					<th>Valor</th>
+				</tr>
+			</thead>
+			<tbody id="tablaVentas">
+			</tbody>
+		</table>
+		<h3>Total a Pagar: <span id="totalPagar">0</span></h3>
+	</div>
+	<script>
+		var ventas = [];
+
+		function registrarVenta() {
+			var producto = document.getElementById("producto").value;
+			var cantidad = document.getElementById("cantidad").value;
+			var valor = 10 * cantidad;
+			var venta = {
+				producto: producto,
+				cantidad: cantidad,
+				valor: valor
+			};
+			ventas.push(venta);
+			agregarVentaTabla(venta);
+			actualizarTotalPagar();
+		}
+
+		function agregarVentaTabla(venta) {
+			var tabla = document.getElementById("tablaVentas");
+			var fila = tabla.insertRow(tabla.rows.length);
+			var celdaProducto = fila.insertCell(0);
+			var celdaCantidad = fila.insertCell(1);
+			var celdaValor = fila.insertCell(2);
+			celdaProducto.innerHTML = venta.producto;
+			celdaCantidad.innerHTML = venta.cantidad;
+			celdaValor.innerHTML = venta.valor;
+		}
+
+		function actualizarTotalPagar() {
+			var total = 0;
+			for (var i = 0; i < ventas.length; i++) {
+				total += ventas[i].valor;
+			}
+			document.getElementById("totalPagar").innerHTML = total;
+		}
+	</script>
+</body>
+</html>
